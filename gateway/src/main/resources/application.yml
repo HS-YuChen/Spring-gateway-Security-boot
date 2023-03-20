@@ -1,0 +1,31 @@
+server:
+  port: 9901
+spring:
+  application:
+    name: yuchen-gateway
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.16.32.99:3306/yuchen?Unicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2b8
+    username: root
+    password: Root123!
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.32.99:8848
+    gateway:
+      routes:
+        - id: test1
+          uri: lb://yuchen-test
+          predicates:
+            - Path=/yuchenTest/test/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true #通过服务名从注册中心进行路由
+          lower-case-service-id: true #服务名小写 默认是大小
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+
+whitelist: "/oauth/**"
