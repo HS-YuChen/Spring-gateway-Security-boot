@@ -31,7 +31,12 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         ServerHttpRequest request = exchange.getRequest();
         HttpHeaders headers = request.getHeaders();
         String user = headers.getFirst("user");
-        log.info("经过鉴权管理了");
-        return "yuchen".equals(user)?Mono.just(new AuthorizationDecision(true)):Mono.just(new AuthorizationDecision(false));
+        if("yuchen".equals(user)){
+            log.info("授权通过了");
+            return Mono.just(new AuthorizationDecision(true));
+        }else {
+            log.info("授权失败了");
+            return Mono.just(new AuthorizationDecision(false));
+        }
     }
 }

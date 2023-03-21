@@ -26,9 +26,12 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+    //授权管理验证
     private final AuthorizationManager authorizationManager;
+    //授权失败
     private final AuthorizationFailure authorizationFailure;
+    //认证失败
+    private final AuthenticationFailure authenticationFailure;
 
     @Value("${whitelist}")
     private String whiteList;
@@ -43,7 +46,9 @@ public class SecurityConfig {
                 //其他请求都要进行权限验证
                 .anyExchange().access(authorizationManager)
                 //鉴权失败
-                .and().exceptionHandling().accessDeniedHandler(authorizationFailure);
+                .and().exceptionHandling()
+                .accessDeniedHandler(authorizationFailure)
+                .authenticationEntryPoint(authenticationFailure);
 
         return http.build();
     }
