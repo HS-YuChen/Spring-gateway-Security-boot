@@ -3,6 +3,7 @@ package com.yuchen.Controller;/*
     @create -- 
 */
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,29 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
-@RequestMapping("/oauth")
 @RestController
+@Slf4j
 public class AuthController {
 
-    @RequestMapping("/admin")
-    public String token(){
-        String result = "";
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (GrantedAuthority grantedAuthority:authorities){
-            result += grantedAuthority.getAuthority();
-        }
-        return result;
-    }
 
-    @RequestMapping("/yuchen")
-    public String yuchen(){
-        String result = "";
+    @RequestMapping("/login")
+    public String login(){
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (GrantedAuthority grantedAuthority:authorities){
-            result += grantedAuthority.getAuthority();
-        }
-        return result;
+        log.info(authentication.getPrincipal().toString());
+        return "yuchen";
+
     }
 }

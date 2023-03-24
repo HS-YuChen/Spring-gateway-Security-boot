@@ -23,6 +23,7 @@ import java.util.List;
 @Component
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
+    private String name = "yuchen";
 
     @Autowired
     PasswordEncoder passwordEncoder;
