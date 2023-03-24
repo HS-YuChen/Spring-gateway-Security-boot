@@ -2,11 +2,16 @@ server:
   port: 9903
 spring:
   application:
-    name: yuchen-oauth
+    name: yuchen-oauth-yuchen
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://172.16.32.99:3306/yuchen?Unicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2b8
+    url: jdbc:mysql://172.16.20.40:3306/yuchen?Unicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2b8
     username: root
     password: Root123!
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.16.32.99:8848
 mybatis:
   mapper-locations: classpath:mybatis/*.xml
+
