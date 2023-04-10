@@ -7,14 +7,22 @@ import com.yuchen.bean.DemoBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/test")
-public class DemoController {
+public class DemoController extends HttpServlet {
+    private static final long serialVersionUID = -495513345685932591L;
+
     public static void main(String[] args) {
         sort();
     }
@@ -37,5 +45,10 @@ public class DemoController {
             System.out.println(demoBean.getLeft()+demoBean.getRight());
         }
         return "yuchen";
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Enumeration<String> ss = req.getHeaders("ss");
     }
 }

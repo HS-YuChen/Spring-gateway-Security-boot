@@ -4,18 +4,27 @@ package com.yuchen.demo;/*
 */
 
 import com.yuchen.bean.NumberEnum;
+import sun.nio.cs.ext.GBK;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class Yuchen {
-    public static void main(String[] args) {
-        List<String> list = loadTemplateFieldListWithDynamic("D1", "AA4");
-        list.stream().forEach(x-> System.out.println(x));
+public class Yuchen{
 
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        byte[] bytes = "宋".getBytes();
+        for (int i = 0; i < bytes.length; i++) {
+            System.out.println(bytes[i]);
+        }
+        char song = '宋';
     }
 
-    private static List<String> loadTemplateFieldListWithDynamic(String startCell,String endCell) {
+
+    private static List<String> loadTemplateFieldListWithDynamic(String startCell, String endCell) {
         //A1~B2    startCell起始坐标A1  endCell终点左边B2
         List<String> locationList = new ArrayList<>();
         String startCellLocationForSplit = expr2xy(startCell);
@@ -33,8 +42,6 @@ public class Yuchen {
                 locationList.add(numToX(j)+i);
             }
         }
-
-
 
         return locationList;
     }
