@@ -15,12 +15,11 @@ import java.util.Map;
 
 public class Yuchen{
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        byte[] bytes = "宋".getBytes();
-        for (int i = 0; i < bytes.length; i++) {
-            System.out.println(bytes[i]);
+    public static void main(String[] args){
+        {
+            ThreadLocal<String> t = new ThreadLocal<>();
         }
-        char song = '宋';
+
     }
 
 
