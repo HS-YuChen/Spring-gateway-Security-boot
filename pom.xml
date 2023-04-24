@@ -11,6 +11,7 @@
         <module>gateway</module>
         <module>test</module>
         <module>oauth2Server</module>
+        <module>jettyServer</module>
     </modules>
 
     <properties>
