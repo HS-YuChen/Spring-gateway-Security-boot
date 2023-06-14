@@ -9,19 +9,14 @@ import sun.nio.cs.ext.GBK;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Yuchen{
+    static Map<String,String> map = new HashMap();
+    Map<String, String> stringStringMap = Collections.synchronizedMap(map);
 
     public static void main(String[] args){
-        {
-            ThreadLocal<String> t = new ThreadLocal<>();
-        }
 
-        HashMap<String, String> stringStringHashMap = new HashMap<>();
     }
 
 
