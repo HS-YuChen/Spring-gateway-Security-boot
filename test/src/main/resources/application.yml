@@ -16,3 +16,9 @@ mybatis:
   mapper-locations: classpath:mybatis/*.xml
 
 jettyServer: http://172.16.32.99:8088/controller/yuchen
+
+mqtt:
+  broker: tcp://172.16.32.151:1883
+  clientId: aiot123456
+  username:
+  password: Aiot123456!
