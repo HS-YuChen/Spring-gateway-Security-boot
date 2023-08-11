@@ -19,13 +19,13 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class MqttConfig {
 
-    @Value("mqtt.broker")
+    @Value("${mqtt.broker}")
     private String broker;
 
-    @Value("mqtt.clientId")
+    @Value("${mqtt.clientId}")
     private String clientId;
 
-    @Value("mqtt.password")
+    @Value("${mqtt.password}")
     private String password;
 
     @Bean

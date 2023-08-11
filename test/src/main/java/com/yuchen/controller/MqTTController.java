@@ -4,8 +4,10 @@ package com.yuchen.controller;/*
 */
 
 import com.yuchen.config.MqTTClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,5 +21,10 @@ public class MqTTController {
     @PostMapping("/pushMessage")
     public void pushMessage(String topic,String message){
         client.pushMessage(topic,message);
+    }
+
+    @PostMapping("/subscribe")
+    public void subscribe(String topic) throws MqttException {
+        client.subscribe(topic);
     }
 }

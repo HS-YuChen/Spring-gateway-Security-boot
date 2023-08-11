@@ -4,10 +4,7 @@ package com.yuchen.config;/*
 */
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 @Slf4j
 public class MqTTClient {
@@ -27,11 +24,13 @@ public class MqTTClient {
     private void connectionMqTT() {
         try {
             client= new MqttClient(mqttConfig.getBroker(), mqttConfig.getClientId(), new MemoryPersistence());
+            //设置回调函数
+            client.setCallback(new MqttCallbackImpl());
             MqttConnectOptions options = new MqttConnectOptions();
             options.setUserName(mqttConfig.getClientId());
             options.setUserName(mqttConfig.getPassword());
             client.connect(options);
-        } catch (MqttException e) {
+        } catch (Exception e) {
 
         }
     }
@@ -43,6 +42,36 @@ public class MqTTClient {
             client.publish(topic,mqttMessage);
         } catch (MqttException e) {
 
+        }
+    }
+
+    public void subscribe(String topic) throws MqttException {
+        client.subscribe(topic,0);
+    }
+
+    public void closeConnection() throws MqttException {
+        client.disconnect();
+        client.close();
+    }
+
+    //回调函数类
+    public class MqttCallbackImpl implements MqttCallback{
+
+        @Override
+        public void connectionLost(Throwable throwable) {
+            log.info("connectionLost: " + throwable.getMessage());
+        }
+
+        @Override
+        public void messageArrived(String topic, MqttMessage message) throws Exception {
+            log.info("topic: " + topic);
+            log.info("Qos: " + message.getQos());
+            log.info("message content: " + new String(message.getPayload()));
+        }
+
+        @Override
+        public void deliveryComplete(IMqttDeliveryToken token) {
+            log.info("deliveryComplete---------" + token.isComplete());
         }
     }
 }

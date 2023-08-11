@@ -12,6 +12,7 @@ spring:
     nacos:
       discovery:
         server-addr: 172.16.32.99:8848
+        group: AI_IOT_DATA
 mybatis:
   mapper-locations: classpath:mybatis/*.xml
 
