@@ -16,23 +16,25 @@ public class MqTTClient {
 
     public static MqTTClient initClient(MqttConfig config){
         mqttConfig = config;
-        mqTTClient.connectionMqTT();
-        log.info("emqx 初始化完成");
+        log.info("打印连接信息:1、服务地址"+mqttConfig.getBroker()+"客户端id" +mqttConfig.getClientId()+"认证密码"+mqttConfig.getPassword());
+        try {
+            mqTTClient.connectionMqTT();
+            log.info("emqx 初始化完成");
+        } catch (Exception e) {
+            log.error("emqx初始化失败，失败原因如下"+e.getMessage());
+        }
         return mqTTClient;
     }
 
-    private void connectionMqTT() {
-        try {
-            client= new MqttClient(mqttConfig.getBroker(), mqttConfig.getClientId(), new MemoryPersistence());
-            //设置回调函数
-            client.setCallback(new MqttCallbackImpl());
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setUserName(mqttConfig.getClientId());
-            options.setUserName(mqttConfig.getPassword());
-            client.connect(options);
-        } catch (Exception e) {
+    private void connectionMqTT() throws Exception{
+        client= new MqttClient(mqttConfig.getBroker(), mqttConfig.getClientId(), new MemoryPersistence());
+        //设置回调函数
+        client.setCallback(new MqttCallbackImpl());
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setUserName(mqttConfig.getClientId());
+        options.setPassword(mqttConfig.getPassword().toCharArray());
+        client.connect(options);
 
-        }
     }
 
     public void pushMessage(String topic,String message){
@@ -73,5 +75,9 @@ public class MqTTClient {
         public void deliveryComplete(IMqttDeliveryToken token) {
             log.info("deliveryComplete---------" + token.isComplete());
         }
+    }
+
+    public boolean isContected(){
+        return mqTTClient.isContected();
     }
 }

@@ -8,11 +8,11 @@ spring:
     url: jdbc:mysql://172.16.32.99:3306/yuchen?Unicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2b8
     username: root
     password: Root123!
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 172.16.32.99:8848
-        group: AI_IOT_DATA
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 172.16.32.99:8848
+#        group: AI_IOT_DATA
 mybatis:
   mapper-locations: classpath:mybatis/*.xml
 
