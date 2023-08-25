@@ -14,7 +14,7 @@ MySQL - 5.7.20 : Database - uvp
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`uvp` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `uvp_build2`;
+USE `uvp`;
 
 /*Data for the table `analysis_algorithm` */
 

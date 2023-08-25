@@ -15,10 +15,10 @@
 */
 
 CREATE
-DATABASE `uvp_build2`;
+DATABASE `uvp`;
 
 USE
-`uvp_build2`;
+`uvp`;
 
 SET NAMES utf8mb4;
 SET
