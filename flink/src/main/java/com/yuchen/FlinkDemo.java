@@ -6,10 +6,8 @@ import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.runtime.executiongraph.Execution;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.SqlDialect;
 import org.apache.flink.table.api.Table;
-import org.apache.flink.table.api.TableEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
 
@@ -40,8 +38,6 @@ public class FlinkDemo {
         ds.print();
         Table table = tEnv.fromDataStream(ds);
         table.printSchema();
-        table.executeInsert("insert overwrite dt_dwd.dwd_test select a from mytable");
-
         env.execute("yuchen-flink-stream-test");
     }
 }
