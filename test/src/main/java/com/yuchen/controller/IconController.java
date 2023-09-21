@@ -12,16 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/icon")
@@ -69,9 +67,30 @@ public class IconController {
     }
 
     @RequestMapping("/insertIconFile")
-    public Object insertIconFile(String id,MultipartFile file,String iconStatus){
-
+    public Object insertIconFile(String id,String industryId,MultipartFile file,String iconStatus){
+        try {
+            InputStream inputStream = file.getInputStream();
+            iconMapper.insertIconFile(id,industryId,inputStream,iconStatus);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
+    @RequestMapping("/getAllIcons")
+    public List<Map<String,Object>> getAllIcons(){
+        List<Map<String, Object>> all = iconMapper.getAll();
+       all = all.stream().map(m->{
+           byte[] bytes = (byte[]) m.get("iconByte");
+           m.put("iconByte",bytes);
+           return m;
+        }).collect(Collectors.toList());
+        return all;
+    }
+
+    @RequestMapping("/testByte")
+    public byte[] testByte(MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        return bytes;
+    }
 }

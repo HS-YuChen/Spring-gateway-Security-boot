@@ -17,4 +17,8 @@ public interface IconMapper {
     Object getIconStream(String id);
 
     void insertIcons(List<Map<String, Object>> list);
+
+    void insertIconFile(@Param("id") String id, @Param("industryId") String industryId, @Param("inputStream") InputStream inputStream, @Param("iconStatus") String iconStatus);
+
+    List<Map<String, Object>> getAll();
 }

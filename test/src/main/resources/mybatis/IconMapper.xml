@@ -19,6 +19,21 @@
          <foreach collection="list" separator="," index="index" item="item">
              (#{item.industryId},null,0,#{item.iconStatus},null,#{item.iconType})
          </foreach>
-
     </insert>
+
+    <update id="insertIconFile">
+        update t_iot_icon
+        set icon_byte = #{inputStream}
+        where id = #{id}
+        and industry_id = #{industryId}
+        and icon_status = #{iconStatus}
+        and icon_type = 0
+    </update>
+
+    <select id="getAll" resultType="map">
+        select id id,icon_byte iconByte
+        FROM t_iot_icon
+        where upload_status = 1
+        and icon_byte is not null
+    </select>
 </mapper>
