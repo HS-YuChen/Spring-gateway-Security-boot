@@ -3,29 +3,19 @@ package com.yuchen.demo;/*
     @create -- 
 */
 
-import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class IODemo {
 
-    public static void main(String[] args) {
-        bufferIO();
+    public static void main(String[] args) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+//        date.setTime(1697101969484l);
+        System.out.println(format.format(date));
+        System.out.println(System.currentTimeMillis());
     }
 
-    static void bufferIO(){
-        InputStream inputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-        int in = 0;
-        Byte[] bytes = new Byte[1024];
-        try {
-            inputStream = new FileInputStream(new File("E:\\桌面\\临时文件.txt"));
-            bufferedInputStream = new BufferedInputStream(inputStream);
-            in = bufferedInputStream.read();
-            System.out.println(in);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
 }

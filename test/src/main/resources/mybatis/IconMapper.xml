@@ -24,8 +24,7 @@
     <update id="insertIconFile">
         update t_iot_icon
         set icon_byte = #{inputStream}
-        where id = #{id}
-        and industry_id = #{industryId}
+        where industry_id = #{industryId}
         and icon_status = #{iconStatus}
         and icon_type = 0
     </update>
@@ -35,5 +34,18 @@
         FROM t_iot_icon
         where upload_status = 1
         and icon_byte is not null
+    </select>
+
+    <insert id="testInsert" parameterType="list">
+        INSERT INTO t_iot_device VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.id}, NULL, #{item.product_id}, 1, #{item.device_name}, 0, 1, '蜂窝移动网(2G /3G/ 4G /5G)', 1, 'z96MN9amSC7kaK73sZMtiC8offlJ7jo9', 1, NULL, NULL, NULL, 'yuchen', '2023-09-22 16:32:02', '2023-09-22 16:32:02', NULL, NULL, 0, 49)
+        </foreach>
+    </insert>
+
+    <select id="select" resultType="map">
+        select id,product_id,device_name
+        from t_iot_device
+        where id = #{id}
     </select>
 </mapper>

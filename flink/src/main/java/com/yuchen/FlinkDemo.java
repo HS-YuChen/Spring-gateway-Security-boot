@@ -1,12 +1,9 @@
 package com.yuchen;
 
+import com.yuchen.bean.MqttBean;
 import com.yuchen.source.MqttSource;
-import org.apache.flink.api.common.RuntimeExecutionMode;
-import org.apache.flink.api.java.ExecutionEnvironment;
-import org.apache.flink.runtime.executiongraph.Execution;
-import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.SqlDialect;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.hive.HiveCatalog;
@@ -19,25 +16,32 @@ public class FlinkDemo {
 
 
     public static void main(String[] args) throws Exception {
-        String catalogName     = "myhive";
-        String defaultDatabase = "default";
-        String hiveConfDir     = "/etc/hive/conf.cloudera.hive/";
-        String version         = "1.2.1";
+        //从MqTT拿消息（流数据）
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setRuntimeMode(RuntimeExecutionMode.BATCH);
-        StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
+        env.enableCheckpointing(10000);
+        DataStream<MqttBean> mqttDataStream = env.addSource(new MqttSource());
+        mqttDataStream.print();
 
-        //写入hive
-        HiveCatalog hive = new HiveCatalog(catalogName, defaultDatabase, hiveConfDir, version);
-        tEnv.registerCatalog("myHive",hive);
-        tEnv.useCatalog("myHive");
-        tEnv.getConfig().setSqlDialect(SqlDialect.HIVE);
-        tEnv.useDatabase("yuchen");
+        StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
+        tableEnv.getConfig().getConfiguration().setString("execution.checkpointing.interval", "10000");
+        //连接hive 用HiveCatalog替换Flink Table的内部Catalog
+        String name = "hive";
+        String defaultDatabase = "import_yuchen";
+        String hiveConfDir = "/etc/hive/conf.cloudera.hive/";
 
-        DataStreamSource<String> ds = env.addSource(new MqttSource());
-        ds.print();
-        Table table = tEnv.fromDataStream(ds);
+        HiveCatalog hiveCatalog = new HiveCatalog(name, defaultDatabase, hiveConfDir);
+        //注册HiveCatalog
+        tableEnv.registerCatalog("hiveCatalog",hiveCatalog);
+        //使用HiveCatalog
+        tableEnv.useCatalog("hiveCatalog");
+        tableEnv.useDatabase("import_yuchen");
+        Table table = tableEnv.fromDataStream(mqttDataStream);
         table.printSchema();
-        env.execute("yuchen-flink-stream-test");
+        tableEnv.createTemporaryView("temT",table);
+        String sql = "INSERT INTO hive_table \n" +
+                "SELECT message, amount, DATE_FORMAT(ts, 'yyyy-MM-dd'), DATE_FORMAT(ts, 'HH')\n" +
+                "FROM temT";
+        tableEnv.executeSql(sql);
+        env.execute("insertHive Job");
     }
 }

@@ -32,8 +32,26 @@ public class SortDemo {
                     System.out.println(insertionSort[i]);
                 }
                 break;
+            case 9:
+                int[] test = {9,18,2,45,32,47,57,42,56};
+                test = test(test);
+                for (int i = 0; i < test.length; i++) {
+                    System.out.println(test[i]);
+                }
+                break;
         }
     }
+
+    private static int[] test(int[] test) {
+
+        return test;
+    }
+
+
+
+
+
+
 
     /*二分查找法
     * 使用场景

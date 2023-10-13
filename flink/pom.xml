@@ -17,41 +17,52 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-java</artifactId>
-            <version>1.14.2</version>
+            <version>1.14.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java_2.11</artifactId>
-            <version>1.14.2</version>
+            <version>1.14.4</version>
             <scope>provided</scope>
         </dependency>
-
-
+        <!-- Emq依赖 -->
         <dependency>
             <groupId>org.eclipse.paho</groupId>
             <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
             <version>1.2.5</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-exec</artifactId>
-            <version>2.3.6</version>
-            <scope>provided</scope>
-        </dependency>
-
+        <!-- Flink连接hive依赖       -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-hive_2.11</artifactId>
-            <version>1.14.2</version>
+            <version>1.14.4</version>
+            <scope>provided</scope>
         </dependency>
+        <!-- flink table和DataStream桥接依赖-->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner_2.11</artifactId>
-            <version>1.14.2</version>
+            <artifactId>flink-table-api-java-bridge_2.11</artifactId>
+            <version>1.14.4</version>
+        </dependency>
+        <!-- Hive Dependency -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-exec</artifactId>
+            <version>1.2.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.pentaho</groupId>
+                    <artifactId>pentaho-aggdesigner-algorithm</artifactId>
+                </exclusion>
+            </exclusions>
             <scope>provided</scope>
         </dependency>
     </dependencies>

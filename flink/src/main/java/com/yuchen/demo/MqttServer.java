@@ -14,14 +14,18 @@ public class MqttServer implements Serializable {
     private static MqttClient mqttClient;
 
 
-    private  String broker = "tcp://172.16.32.99:1883";
+    private  String broker = "tcp://172.16.32.152:1883";
+    private String clientId = "client-yuchen-flinkDemo";
 
-    private String clientId = "client-yuchen";
 
     public void connect() throws MqttException {
         mqttClient = new MqttClient(broker,clientId,new MemoryPersistence());
         mqttClient.setCallback(new MqttCallBack());
         mqttClient.connect();
+    }
+
+    public void disConnect() throws MqttException {
+        mqttClient.disconnect();
     }
 
     public void sub(String topic) throws MqttException {
@@ -44,8 +48,8 @@ class MqttCallBack implements MqttCallback{
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-        String mess = String.valueOf(mqttMessage.getPayload());
-        System.out.println("来消息了"+mess);
+        String mess = mqttMessage.toString();
+        System.out.println("emqx接收到消息了，消息内容为："+mess);
         FlinkDemo.queue.add(mess);
     }
 

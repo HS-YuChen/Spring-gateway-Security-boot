@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.InputStream;
-import java.sql.Blob;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,11 @@ public interface IconMapper {
 
     void insertIcons(List<Map<String, Object>> list);
 
-    void insertIconFile(@Param("id") String id, @Param("industryId") String industryId, @Param("inputStream") InputStream inputStream, @Param("iconStatus") String iconStatus);
+    int insertIconFile(@Param("id") String id, @Param("industryId") String industryId, @Param("inputStream") InputStream inputStream, @Param("iconStatus") String iconStatus);
 
     List<Map<String, Object>> getAll();
+
+    void testInsert(List<Map<String, Object>> list);
+
+    Map<String, String>  select(String id);
 }
