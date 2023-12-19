@@ -48,4 +48,11 @@
         from t_iot_device
         where id = #{id}
     </select>
+
+    <insert id="insertIconDefaultPicFile">
+        update t_iot_icon
+        set icon_byte = #{inputStream}
+        where industry_id = #{industryId}
+          and icon_type = #{i}
+    </insert>
 </mapper>

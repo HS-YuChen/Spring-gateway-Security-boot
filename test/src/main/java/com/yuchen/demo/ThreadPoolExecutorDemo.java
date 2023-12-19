@@ -3,11 +3,9 @@ package com.yuchen.demo;/*
     @create -- 
 */
 
-import java.util.concurrent.ExecutionException;
-
 public class ThreadPoolExecutorDemo {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args){
 
     }
 

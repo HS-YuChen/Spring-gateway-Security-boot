@@ -17,11 +17,13 @@ public interface IconMapper {
 
     void insertIcons(List<Map<String, Object>> list);
 
-    int insertIconFile(@Param("id") String id, @Param("industryId") String industryId, @Param("inputStream") InputStream inputStream, @Param("iconStatus") String iconStatus);
+    int insertIconFile( @Param("industryId") String industryId, @Param("inputStream") InputStream inputStream, @Param("iconStatus") String iconStatus);
 
     List<Map<String, Object>> getAll();
 
     void testInsert(List<Map<String, Object>> list);
 
     Map<String, String>  select(String id);
+
+    void insertIconDefaultPicFile(@Param("industryId") String industryId, @Param("inputStream") InputStream inputStream, @Param("i") int i);
 }

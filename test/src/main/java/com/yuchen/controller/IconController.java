@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSON;
 import com.yuchen.mapper.IconMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,18 +65,25 @@ public class IconController {
     }
 
     @RequestMapping("/insertIconFile")
-    public Object insertIconFile(@RequestParam(required = false) String id, String industryId, MultipartFile file, String iconStatus){
-        try {
-            InputStream inputStream = file.getInputStream();
-            int i = iconMapper.insertIconFile(id, industryId, inputStream, iconStatus);
-            if(i>0){
-                return "插入成功";
+    public Object insertIconFile(String industryId, MultipartFile[] files) throws IOException {
+        int length = files.length;
+        if(length==1){
+            InputStream inputStream = files[0].getInputStream();
+            iconMapper.insertIconDefaultPicFile(industryId,inputStream,1);
+        }else if(length==5){
+            for (int i=0;i<length;i++){
+                try {
+                    InputStream inputStream = files[i].getInputStream();
+                    int j = iconMapper.insertIconFile(industryId, inputStream, String.valueOf(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return "插入失败";
+
+        return "插入成功";
     }
+
 
     @RequestMapping("/getAllIcons")
     public List<Map<String,Object>> getAllIcons(){

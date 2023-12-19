@@ -1,10 +1,12 @@
 package com.yuchen.demo;
 
-import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Yuchen{
 
-    public static void main(String[] args) {
+    public static ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
 
+    public static void main(String[] args){
+        map.put("yuchen","yuchen");
     }
 }
